@@ -50,23 +50,6 @@ class AddQuestions extends Component{
         }
     }
 
-    getQuestionsList = () => {
-        var pollid = localStorage.getItem('pollid');
-            //var user = JSON.parse(localStorage.getItem('user'));
-            //console.log("User ID : "+user.userid);
-            fetch(`${this.serverdomain}/${pollid}`)
-            .then(res => res.json())
-            .then(jsonData => {
-                console.log(jsonData);
-                var questionList = [];
-
-                jsonData[0].questions.map((question) => {
-                    questionList.push({questionName:question.topic});
-                });
-                console.log(questionList);
-                this.setState({questionListData:questionList});
-            })
-    }
 
     openModal = () =>{
         
