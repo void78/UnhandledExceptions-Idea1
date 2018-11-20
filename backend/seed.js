@@ -1,4 +1,4 @@
-require('mongoose').connect('mongodb://localhost/VotingApp');
+require('mongoose').connect('mongodb://localhost/votingapp');
 
     const topics = [
         "Should dogs be allowed to fly?",
@@ -7,16 +7,10 @@ require('mongoose').connect('mongodb://localhost/VotingApp');
         "Should cars have four wheels?",
         "Should humans be allowed to wear shoes?"
     ];
-    let User = require('../models/User');
+    let User = require('./models/User');
 
     User.deleteMany({})
         .then(() => {
-            // var user = new User({});
-            // user.username = "Atharva";
-            // user.password = "abc";
-            // user.email = "def";
-        
-            // return user.save();
             users=[];
                 users.push(
                     {
@@ -31,7 +25,6 @@ require('mongoose').connect('mongodb://localhost/VotingApp');
                     {name : "Samriddhi",
                     email: "Samriddhi@gmail.com",
                     password: "abcd"});
-                    
             
             return User.create(users);
         })

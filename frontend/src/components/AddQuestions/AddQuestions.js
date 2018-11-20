@@ -4,6 +4,7 @@ import history from '../../history';
 import Modal from 'react-modal'
 import { Link } from "react-router-dom";
 import { Nav, Navbar, NavItem , Button } from "react-bootstrap"; 
+import AddQuestionModal from "../AddQuestionModal/AddQuestionModal"
 
 
 class AddQuestions extends Component{
@@ -11,10 +12,14 @@ class AddQuestions extends Component{
     constructor(props){
         super(props);
         this.state={
-            isOpen:false
+            showQuestionModal:false
         };
+        this.initialValue=2;
+        this.numberOfOptions=[2,3,4];
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        // this.handleAddGroup = this.handleAddGroup.bind(this);
+        // this.handleAddGroupChange = this.handleAddGroupChange.bind(this);
     }
 
     componentDidMount(){
@@ -25,11 +30,11 @@ class AddQuestions extends Component{
 
     openModal = () =>{
         
-        this.setState({ isOpen: true});
+        this.setState({ showQuestionModal: true});
     }
 
     closeModal =() => {
-        this.setState({ isOpen: false})
+        this.setState({ showQuestionModal: false})
     }   
 
     logout(){
@@ -37,8 +42,12 @@ class AddQuestions extends Component{
         history.push('');
     }
 
-    render(){
+    handleSubmitQuestion = ()=>{
+        this.setState({showQuestionModal:false})
+    }
 
+    render(){
+        let closeQuestionModal = () => this.setState({ showQuestionModal: false });
 
         return (
             
@@ -58,37 +67,9 @@ class AddQuestions extends Component{
             </Navbar.Collapse>
             </Navbar>
 
-        <Button onClick={this.openModal}>Add a new Question</Button>    
-             
-            <Modal
-                    id="Add_Question_Modal"
-                    isOpen={this.state.isOpen}
-                    contentLabel="Modal_Label1"
-                    shouldCloseOnOverlayClick={true}
-                    closeTimeoutMS={150}
-                    onRequestClose={this.closeModal}
-                    aria={{
-                        labelledby: "heading",
-                        describedby: "fulldescription"
-                      }}
-                    className="firmModal"
-                >   
-                    <div className="modal-content">
-                        <div className="modal-header" style={{backgroundColor:'#6e1b43',color:'#f1f1f1'}}>
-                            <h1 id="heading" style={{textAlign:'left'}}> New Group </h1>
-                        </div>
-                        <div className="modal-body">
-                            <form>
-                                <label for="addedFirm" style={{marginRight: '10px'}}>Group Name </label>
-                                <input type="text" placeholder="Enter Group Name" name="addedGroup" value={this.state.addedGroup} onChange={this.handleAddGroupChange}/> 
-                            </form>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={this.closeModal}> Close </button>
-                            <button type="button" className="btn btn-primary" onClick={this.handleAddGroup}> Add Group </button>
-                        </div>
-                    </div>
-                </Modal>
+        <Button onClick={()=>{this.setState({showQuestionModal: true});}}>Add a new Question</Button>
+
+        <AddQuestionModal  show={this.state.showQuestionModal} onHide={this.closeModal}/>
 
         </div>);
     }
