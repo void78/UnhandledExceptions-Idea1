@@ -17,6 +17,7 @@ router.post('/createPoll', (req, res, next) => {
     poll.userid = req.body.userid;
 
     poll.save(function(err, poll, numberAffected){
+        console.log(poll)
         return res.json(poll);
     });
 
