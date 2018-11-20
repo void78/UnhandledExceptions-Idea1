@@ -11,6 +11,17 @@ router.get('/:pollId', (req, res, next) => {
     });
 });
 
+router.post('/createPoll', (req, res, next) => {
+    var poll = new Poll({});    
+    poll.questions = [];
+    poll.userid = req.body.userid;
+
+    poll.save(function(err, poll, numberAffected){
+        return res.json(poll);
+    });
+
+});
+
 router.post('/:pollId/:questionId/vote', (req, res, next) => {
 
     const pollId = req.params.pollId;

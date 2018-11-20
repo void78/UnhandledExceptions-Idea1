@@ -8,6 +8,7 @@ require('mongoose').connect('mongodb://localhost/votingapp');
         "Should humans be allowed to wear shoes?"
     ];
     let User = require('./models/User');
+<<<<<<< HEAD
     const Poll = require('./models/poll');
     const Question = require('./models/question');
 
@@ -34,6 +35,25 @@ require('mongoose').connect('mongodb://localhost/votingapp');
     //                 email: "Samriddhi@gmail.com",
     //                 password: "abcd"});
                     
+=======
+
+    User.deleteMany({})
+        .then(() => {
+            users=[];
+                users.push(
+                    {
+                    name: "Atharva",
+                    email: "Atharva@gmail.com",
+                    password: "abcd"});
+                users.push(
+                    {name: "Niyam",
+                    email: "Niyam@gmail.com",
+                    password: "abcd"});
+                users.push(
+                    {name : "Samriddhi",
+                    email: "Samriddhi@gmail.com",
+                    password: "abcd"});
+>>>>>>> Add_Question_Branch
             
     //         return User.create(users);
     //     })

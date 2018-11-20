@@ -54,7 +54,20 @@ class AddPoll extends Component{
     }
 
     goToQuestions(){
-        history.push('/addQuestions');
+        var user = JSON.parse(localStorage.getItem('user'));
+        console.log(user)
+        fetch(`http://localhost:3002/api/createPoll`, {
+            method: 'POST',
+            headers: new Headers({'Content-Type':'application/json'}),
+            body: JSON.stringify({"userid":user.userid})
+        }).then(res => res.json())
+        .then(poll => {
+            console.log(poll);
+            localStorage.setItem('pollid', poll.pollid);
+            history.push('/addQuestions');
+            //this.setToken(res.token) // Setting the token in localStorage
+            //return Promise.resolve(res);
+        })
     }
 
     setPollListTableData(){
