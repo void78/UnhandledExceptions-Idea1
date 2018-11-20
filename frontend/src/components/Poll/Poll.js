@@ -19,6 +19,7 @@ class Poll extends React.Component{
         }
         this.handleVote = this.handleVote.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.getPolls = this.getPolls.bind(this);
     }
 
     // componentWillReceiveProps(){
@@ -55,6 +56,7 @@ class Poll extends React.Component{
                 }, 3000);
                 voteCount.style.color = 'green';
                 voteCount.style.fontWeight = '900';
+
             });
     }
 

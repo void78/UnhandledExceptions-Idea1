@@ -3,6 +3,7 @@ import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import {Button} from 'react-bootstrap';
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import history from '../../history';
+import {ToastContainer, ToastStore} from 'react-toasts';
 
 class PollListTable extends Component {
   constructor(props){
@@ -28,8 +29,9 @@ class PollListTable extends Component {
       body: JSON.stringify({"pollid":row.pollid})
   }).then(res => res.json())
   .then(jsonData => {
-      row.closePollButton.disabled = true;
-      row.editButton.disabled = true;
+      ToastStore.success("Poll Closed", 1500);
+    //   row.closePollButton.disabled = true;
+    //   row.editButton.disabled = true;
       
   })
       console.log('Close Poll Button : '+row.toString());
@@ -90,6 +92,8 @@ class PollListTable extends Component {
           <TableHeaderColumn dataField='chartButton' dataFormat={this.chartButton.bind(this)} dataAlign="center" tdStyle={{whiteSpace: 'normal'}} >Chart</TableHeaderColumn>
           <TableHeaderColumn dataField='closePollButton' dataFormat={this.closePollButton.bind(this)} dataAlign="center" tdStyle={{whiteSpace: 'normal'}}>Close</TableHeaderColumn>
         </BootstrapTable>
+
+        <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore}/>
       </div>
     );
   }

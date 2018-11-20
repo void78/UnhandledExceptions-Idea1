@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import {Form, Label, Badge, Panel, Radio, ListGroup, ListGroupItem, Button, Row,Col,Navbar, Nav, NavItem, MenuItem, NavDropdown, DropdownButton, Glyphicon,Tabs,Tab} from 'react-bootstrap';
 import axios from 'axios';
+import history from '../../history';
 
 import Pusher from 'pusher-js';
 
@@ -24,6 +26,11 @@ class PollResult extends React.Component{
     // }
 
     componentDidMount(){
+        console.log(localStorage.getItem('user'));
+        if(!localStorage.getItem('user')){
+            history.push('/');
+        }
+        
         const { match: { params } } = this.props;
 
         this.getPolls(params.pollid);
@@ -72,6 +79,11 @@ class PollResult extends React.Component{
     //     console.log("Form State : "+this.state);
     // }
 
+    logout(){
+        localStorage.clear();
+        history.push('');
+    }
+
     getPolls = async(pollid) => {
 
         let response = await fetch(`${this.serverdomain}/api/${pollid}`);
@@ -93,6 +105,20 @@ class PollResult extends React.Component{
     render(){
         return(
             <div className="App"> 
+                <Navbar fluid collapseOnSelect>
+            <Navbar.Header>
+                <Navbar.Brand>
+                <Link to="/">Polling System</Link>
+                </Navbar.Brand>
+                <Navbar.Toggle />
+            </Navbar.Header>
+            <Navbar.Collapse>
+                <Nav pullRight>
+                <NavItem onClick={this.logout}>Logout</NavItem>
+                
+                </Nav>
+            </Navbar.Collapse>
+            </Navbar>
                 <div className="container-fluid">
 
                     {
