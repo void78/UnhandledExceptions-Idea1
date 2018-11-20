@@ -35,7 +35,7 @@ class Login extends Component {
         }).then(res => res.json())
         .then(jsonData => {
             console.log(jsonData);
-            localStorage.setItem('user', jsonData);
+            localStorage.setItem('user', JSON.stringify(jsonData));
             history.push('/addPoll');
             //this.setToken(res.token) // Setting the token in localStorage
             //return Promise.resolve(res);

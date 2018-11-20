@@ -9,6 +9,7 @@ autoIncrement.initialize(mongoose.connection);
 var PollSchema = new mongoose.Schema({
     pollid: {type: Number, required: true},
     userid: {type: Number, required: true },
+    name : {type: String, required : true},
     questions: [QuestionSchema]
 });
 

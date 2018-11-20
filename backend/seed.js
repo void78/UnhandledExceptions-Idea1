@@ -1,4 +1,4 @@
-require('mongoose').connect('mongodb://localhost/VotingApp');
+require('mongoose').connect('mongodb://localhost/votingapp');
 
     const topics = [
         "Should dogs be allowed to fly?",
@@ -7,38 +7,108 @@ require('mongoose').connect('mongodb://localhost/VotingApp');
         "Should cars have four wheels?",
         "Should humans be allowed to wear shoes?"
     ];
-    let User = require('../models/User');
+    let User = require('./models/User');
+    const Poll = require('./models/poll');
+    const Question = require('./models/question');
 
-    User.deleteMany({})
-        .then(() => {
-            // var user = new User({});
-            // user.username = "Atharva";
-            // user.password = "abc";
-            // user.email = "def";
+    // User.deleteMany({})
+    //     .then(() => {
+    //         // var user = new User({});
+    //         // user.username = "Atharva";
+    //         // user.password = "abc";
+    //         // user.email = "def";
         
-            // return user.save();
-            users=[];
-                users.push(
-                    {
-                    name: "Atharva",
-                    email: "Atharva@gmail.com",
-                    password: "abcd"});
-                users.push(
-                    {name: "Niyam",
-                    email: "Niyam@gmail.com",
-                    password: "abcd"});
-                users.push(
-                    {name : "Samriddhi",
-                    email: "Samriddhi@gmail.com",
-                    password: "abcd"});
+    //         // return user.save();
+    //         users=[];
+    //             users.push(
+    //                 {
+    //                 name: "Atharva",
+    //                 email: "Atharva@gmail.com",
+    //                 password: "abcd"});
+    //             users.push(
+    //                 {name: "Niyam",
+    //                 email: "Niyam@gmail.com",
+    //                 password: "abcd"});
+    //             users.push(
+    //                 {name : "Samriddhi",
+    //                 email: "Samriddhi@gmail.com",
+    //                 password: "abcd"});
                     
             
-            return User.create(users);
-        })
-        .then(() => {
-            process.exit();
-        })
-        .catch((e) => {
-            console.log(e);
-            process.exit(1);
-        });
+    //         return User.create(users);
+    //     })
+    //     .then(() => {
+    //         process.exit();
+    //     })
+    //     .catch((e) => {
+    //         console.log(e);
+    //         process.exit(1);
+    //     });
+
+
+        Poll.deleteMany({})
+    .then(() => {
+        //let polls = {};
+
+        var poll = new Poll({});    
+        for (let i = 0; i < 5; i++) {
+
+            var q = new Question({
+                topic: topics[i],
+                choices: [
+                    {
+                        value: "Yes",
+                        votes: Math.round(Math.random() * 20)
+                    },
+                    {
+                        value: "No",
+                        votes: Math.round(Math.random() * 20)
+                    },
+                    {
+                        value: "I really don't care",
+                        votes: Math.round(Math.random() * 20)
+                    }
+                ]
+            });
+            poll.name = "Test Poll";
+            poll.userid= 12;
+            poll.questions.push(q);
+        }
+
+        var poll2 = new Poll({});    
+        for (let i = 0; i < 5; i++) {
+
+            var q = new Question({
+                topic: topics[i],
+                choices: [
+                    {
+                        value: "Yes",
+                        votes: Math.round(Math.random() * 20)
+                    },
+                    {
+                        value: "No",
+                        votes: Math.round(Math.random() * 20)
+                    },
+                    {
+                        value: "I really don't care",
+                        votes: Math.round(Math.random() * 20)
+                    }
+                ]
+            });
+            poll2.name = "Test Poll 2";
+            poll2.userid= 12;
+            poll2.questions.push(q);
+        }
+
+        poll.save();
+        return poll2.save();
+
+         
+    })
+    .then(() => {
+        process.exit();
+    })
+    .catch((e) => {
+        console.log(e);
+        process.exit(1);
+    });

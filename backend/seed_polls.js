@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('mongoose').connect('mongodb://localhost/VotingApp', { useNewUrlParser: true });
+require('mongoose').connect('mongodb://localhost/votingapp', { useNewUrlParser: true });
 
 const topics = [
     "Should dogs be allowed to fly?",
@@ -10,8 +10,8 @@ const topics = [
     "Should humans be allowed to wear shoes?"
 ];
 
-const Poll = require('../models/poll');
-const Question = require('../models/question');
+const Poll = require('./models/poll');
+const Question = require('./models/question');
 
 // empty the collection first
 Poll.deleteMany({})
@@ -38,7 +38,7 @@ Poll.deleteMany({})
                     }
                 ]
             });
-            poll.userid= 1;
+            poll.userid = 1;
             poll.questions.push(q);
         }
         return poll.save();

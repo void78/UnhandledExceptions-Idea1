@@ -2,6 +2,7 @@ let router = require('express').Router();
 var mongoose = require("mongoose");
 
 let User = require('./../models/user');
+let Poll = require('./../models/poll');
 
 router.post('/login', (req, res, next) => {
 
@@ -51,5 +52,16 @@ router.post('/createUser', (req, res, next) => {
 
 });
 
+router.post('/getPolls', (req, res, next) => {
+
+    var userId = req.body.userId;
+
+    Poll.find({"userid": userId}).exec((err, polls) => {
+        console.log(polls);
+        return res.status(200).json(polls);
+    });
+
+    
+});
 
 module.exports = router;

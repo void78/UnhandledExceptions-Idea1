@@ -5,16 +5,46 @@ import history from '../../history';
 import { Link } from "react-router-dom";
 import { Nav, Navbar, NavItem , Button } from "react-bootstrap"; 
 
+import PollListTable from '../Tables/PollListTable';
+
 
 class AddPoll extends Component{
 
     constructor(props){
         super(props);
+
+        this.serverdomain = 'http://localhost:3002/api';
+        this.state = {
+            polls : null,
+            pollListTableData:null
+        }
+
+        this.setPollListTableData = this.setPollListTableData.bind(this);
     }
 
     componentDidMount(){
         if(!localStorage.getItem('user')){
             history.push('/');
+        }
+        else{
+            var user = JSON.parse(localStorage.getItem('user'));
+            console.log("User ID : "+user.userid);
+            fetch(`${this.serverdomain}/getPolls`)
+
+            fetch(`${this.serverdomain}/getPolls`, {
+            method: 'POST',
+            headers: new Headers({'Content-Type':'application/json'}),
+            body: JSON.stringify({"userId":user.userid})
+        }).then(res => res.json())
+        .then(jsonData => {
+            console.log(jsonData);
+            var pollList = [];
+
+            jsonData.map((poll) => {
+                pollList.push({pollid:poll.pollid, name:poll.name});
+            });
+            this.setState({pollListTableData:pollList, polls:jsonData});
+        })
         }
     }
 
@@ -26,6 +56,12 @@ class AddPoll extends Component{
     goToQuestions(){
         history.push('/addQuestions');
     }
+
+    setPollListTableData(){
+
+    }
+
+
 
     render(){
 
@@ -49,6 +85,14 @@ class AddPoll extends Component{
             </Navbar>
         
             <Button onClick={this.goToQuestions}>Add a New Poll</Button>
+
+            {
+                this.state.pollListTableData?
+                
+                <PollListTable data={this.state.pollListTableData}>
+
+                </PollListTable>:<div>No Polls</div>
+            }
             
         </div>);
     }
