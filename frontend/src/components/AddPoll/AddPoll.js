@@ -23,6 +23,10 @@ class AddPoll extends Component{
         history.push('');
     }
 
+    goToQuestions(){
+        history.push('/addQuestions');
+    }
+
     render(){
 
 
@@ -44,7 +48,7 @@ class AddPoll extends Component{
             </Navbar.Collapse>
             </Navbar>
         
-            
+            <Button onClick={this.goToQuestions}>Add a New Poll</Button>
             
         </div>);
     }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import history from '../../history';
-
+import Modal from 'react-modal'
 import { Link } from "react-router-dom";
 import { Nav, Navbar, NavItem , Button } from "react-bootstrap"; 
 
@@ -10,6 +10,9 @@ class AddQuestions extends Component{
 
     constructor(props){
         super(props);
+        this.state={
+            isOpen:false
+        };
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
@@ -54,8 +57,9 @@ class AddQuestions extends Component{
                 </Nav>
             </Navbar.Collapse>
             </Navbar>
-            
-            <Button on-onClick={this.addQuestion()}>Add a new Question</Button>    
+
+        <Button onClick={this.openModal}>Add a new Question</Button>    
+             
             <Modal
                     id="Add_Question_Modal"
                     isOpen={this.state.isOpen}
@@ -90,4 +94,4 @@ class AddQuestions extends Component{
     }
 }
 
-export default AddPoll
+export default AddQuestions;
