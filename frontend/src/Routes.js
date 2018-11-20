@@ -7,6 +7,7 @@ import SignUp from "./components/SignUp/SignUp";
 import Poll from "./components/Poll/Poll";
 import { withAlert } from 'react-alert';
 import AddPoll from './components/AddPoll/AddPoll';
+import PollResult from './components/PollResult/PollResult';
 
 import AddQuestions from './components/AddQuestions/AddQuestions';
 
@@ -18,5 +19,6 @@ export default () =>
     <Route path="/addPoll" exact component={AddPoll} />
     <Route path="/poll/:pollid" component={Poll}/>
     <Route path="/addQuestions" component={AddQuestions}/>
+    <Route path="/pollResult/:pollid" component={PollResult}/>
     <Route component={NotFound} />
   </Switch>;

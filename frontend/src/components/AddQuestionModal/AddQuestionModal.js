@@ -3,6 +3,8 @@ import { Button, Modal, Alert } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome'
 import classNames from 'classnames';
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import {ToastContainer, ToastStore} from 'react-toasts';
+import history from '../../history';
 
 
 class AddQuestionModal extends Component {
@@ -26,6 +28,8 @@ class AddQuestionModal extends Component {
         };
         this.initialValue=2;
         this.numberOfOptions=[2,3,4];
+
+        this.handleSubmit = this.handleSubmit.bind(this);
     
     }
 
@@ -49,36 +53,75 @@ class AddQuestionModal extends Component {
             case 2:
                 choiceFlags.choice3flag = false;
                 choiceFlags.choice4flag = false;
-                console.log(choiceFlags)
                 break;
             case 3:
                 choiceFlags.choice4flag = false;
-                console.log(choiceFlags)
                 break;
             case 4:
-            console.log(choiceFlags)
                 break;
-           
+            default: choiceFlags.choice3flag = false;
+                    choiceFlags.choice4flag = false;
+                    break;
         }
 
         console.log(choiceFlags);
         this.setState({choiceFlags:choiceFlags});
 
-        // for(var count=1; count<=event.target.value; count++){
-        //     choices.push(<input type="text" id={"choice"+count} onChange={this.handleChange}></input>); 
-        // }
-        // this.setState({choices: choices});
+        
     }
 
     handleSubmit(){
         var pollid=localStorage.getItem('pollid');
+        var choices=[];
+        var choice={};
+        var topic = this.state.question;
+
+        if(this.state.choiceFlags.choice1flag)
+        {
+            choice.value=this.state.choice1;
+            choice.votes=0;
+            choices.push(choice);
+            if(this.state.choiceFlags.choice2flag)
+            {
+                choice = {};
+                choice.value=this.state.choice2;
+                choice.votes=0;
+                choices.push(choice);
+                if(this.state.choiceFlags.choice3flag)
+                {   
+                    choice = {}
+                    choice.value=this.state.choice3;
+                    choice.votes=0
+                    choices.push(choice)
+                    if(this.state.choiceFlags.choice4flag)
+                    {
+                        choice = {}
+                        choice.value=this.state.choice4;
+                        choice.votes=0
+                        choices.push(choice)
+                    }   
+                }   
+            }   
+        }
+        
         console.log(pollid);
+        fetch(`http://localhost:3002/api/addQuestionToPoll`, {
+            method: 'POST',
+            headers: new Headers({'Content-Type':'application/json'}),
+            body: JSON.stringify({pollid:pollid,topic:topic,choices:choices})
+        }).then(res => res.json())
+        .then(jsonData => {
+            console.log(jsonData);
+            ToastStore.success("Question Added", 1500);
+            this.props.onHide();
+            window.location.reload();
+        })
+
     }
 
     render(){
         return (
-
-            
+            <div>
             <Modal
             {...this.props}
             bsSize="large"
@@ -127,9 +170,12 @@ class AddQuestionModal extends Component {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle="primary" type="submit" value="Add Questionr">Add Question</Button>
+                    <Button bsStyle="primary" type="submit" value="Add Question" onClick={this.handleSubmit}>Add Question</Button>
                 </Modal.Footer>
             </Modal>
+            
+            <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore}/>
+            </div>
         );
     }
 }

@@ -132,6 +132,7 @@ class Poll extends React.Component{
 
                     {
                         this.state.poll!=null?
+                        this.state.poll.isActive?
                         this.state.poll.questions.map((question, questionIndex) => 
                             <div className="col-md-12">
                                 <Form onSubmit={this.handleVote} id={question._id}>
@@ -151,8 +152,8 @@ class Poll extends React.Component{
                                 </Panel>   
                                 </Form>     
                             
-                            </div>)
-                        :<div className="loading"><p>loading...</p></div>
+                            </div>):<h1 className="text-center">This Poll has been closed</h1>
+                        :<h1 className="text-center">Loading...</h1>
                     }
                     <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore}/>
                 </div>

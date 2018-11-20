@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import history from '../../history';
 
 import { Link } from "react-router-dom";
-import { Nav, Navbar, NavItem , Button } from "react-bootstrap"; 
+import { Nav, Navbar, NavItem , Button, ControlLabel, FormControl } from "react-bootstrap"; 
 
 import PollListTable from '../Tables/PollListTable';
 
@@ -16,10 +16,11 @@ class AddPoll extends Component{
         this.serverdomain = 'http://localhost:3002/api';
         this.state = {
             polls : null,
-            pollListTableData:null
+            pollListTableData:null,
+            pollname:''
         }
 
-        this.setPollListTableData = this.setPollListTableData.bind(this);
+        this.goToQuestions = this.goToQuestions.bind(this);
     }
 
     componentDidMount(){
@@ -48,6 +49,12 @@ class AddPoll extends Component{
         }
     }
 
+    onChange = event => {
+        this.setState({
+          [event.target.id]: event.target.value
+        });
+      }
+
     logout(){
         localStorage.clear();
         history.push('');
@@ -59,7 +66,7 @@ class AddPoll extends Component{
         fetch(`http://localhost:3002/api/createPoll`, {
             method: 'POST',
             headers: new Headers({'Content-Type':'application/json'}),
-            body: JSON.stringify({"userid":user.userid})
+            body: JSON.stringify({"userid":user.userid, "pollname":this.state.pollname})
         }).then(res => res.json())
         .then(poll => {
             console.log(poll);
@@ -70,14 +77,7 @@ class AddPoll extends Component{
         })
     }
 
-    setPollListTableData(){
-
-    }
-
-
-
     render(){
-
 
         return (
             
@@ -97,14 +97,14 @@ class AddPoll extends Component{
             </Navbar.Collapse>
             </Navbar>
         
-            <Button onClick={this.goToQuestions}>Add a New Poll</Button>
+            <ControlLabel>Poll Name</ControlLabel>
+            <FormControl type="text" value={this.state.pollname} id="pollname" onChange={this.onChange}/>
+            <Button disabled={!this.state.pollname} onClick={this.goToQuestions}>Add a New Poll</Button>
 
             {
                 this.state.pollListTableData?
                 
-                <PollListTable data={this.state.pollListTableData}>
-
-                </PollListTable>:<div>No Polls</div>
+                <PollListTable data={this.state.pollListTableData}></PollListTable>:<div>No Polls</div>
             }
             
         </div>);

@@ -39,15 +39,21 @@ router.post('/createUser', (req, res, next) => {
     //   }
     //  });
     //  return user;
-    var ObjectID = require('mongodb').ObjectID;
+    // var ObjectID = require('mongodb').ObjectID;
+    // var user = {
+    //     name: req.body.name,
+    //     email: req.body.email,
+    //     password: req.body.password,
+    //     _id: new ObjectID()
+    // };
+    // conn.collection('users').insert(user);
     var user = {
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
-        _id: new ObjectID()
+        password: req.body.password
     };
-    conn.collection('users').insert(user);
 
+    User.create(user);
     res.send('');
 
 });

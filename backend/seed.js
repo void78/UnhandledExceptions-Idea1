@@ -71,37 +71,39 @@ require('mongoose').connect('mongodb://localhost/votingapp');
                 ]
             });
             poll.name = "Test Poll";
-            poll.userid= 12;
+            poll.userid= 4;
+            poll.isActive=true;
             poll.questions.push(q);
         }
 
-        var poll2 = new Poll({});    
-        for (let i = 0; i < 5; i++) {
+        // var poll2 = new Poll({});    
+        // for (let i = 0; i < 5; i++) {
 
-            var q = new Question({
-                topic: topics[i],
-                choices: [
-                    {
-                        value: "Yes",
-                        votes: Math.round(Math.random() * 20)
-                    },
-                    {
-                        value: "No",
-                        votes: Math.round(Math.random() * 20)
-                    },
-                    {
-                        value: "I really don't care",
-                        votes: Math.round(Math.random() * 20)
-                    }
-                ]
-            });
-            poll2.name = "Test Poll 2";
-            poll2.userid= 12;
-            poll2.questions.push(q);
-        }
+        //     var q = new Question({
+        //         topic: topics[i],
+        //         choices: [
+        //             {
+        //                 value: "Yes",
+        //                 votes: Math.round(Math.random() * 20)
+        //             },
+        //             {
+        //                 value: "No",
+        //                 votes: Math.round(Math.random() * 20)
+        //             },
+        //             {
+        //                 value: "I really don't care",
+        //                 votes: Math.round(Math.random() * 20)
+        //             }
+        //         ]
+        //     });
+        //     poll2.name = "Test Poll 2";
+        //     poll2.userid= 12;
+        //     poll2
+        //     poll2.questions.push(q);
+        // }
 
-        poll.save();
-        return poll2.save();
+        
+        return poll.save();
 
          
     })

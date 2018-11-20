@@ -1,6 +1,10 @@
+require('mongoose').connect('mongodb://localhost/votingapp');
+
+let mongoose = require('mongoose');
 let router = require('express').Router();
 
 let Poll = require('../models/poll');
+let Question = require('../models/question');
 
 router.get('/:pollId', (req, res, next) => {
     console.log("Inside GET Polls");
@@ -11,16 +15,59 @@ router.get('/:pollId', (req, res, next) => {
     });
 });
 
-router.post('/createPoll', (req, res, next) => {
-    var poll = new Poll({});    
-    poll.questions = [];
-    poll.userid = req.body.userid;
+router.post('/addQuestionToPoll', (req, res, next) => {
+    var topic = req.body.topic;
+    var choices = req.body.choices;
+    var pollid = req.body.pollid;
 
-    poll.save(function(err, poll, numberAffected){
-        console.log(poll)
-        return res.json(poll);
+    var q = new Question({
+        topic: topic,
+        choices: choices
     });
 
+    Poll.findOne({pollid:pollid}, function(err, poll){
+        poll.questions.push(q);
+        poll.save().then(poll => {
+            return res.status(200).json(poll);
+        });
+    });
+
+    //return res.status(200);
+
+});
+
+router.post('/createPoll', (req, res, next) => {
+    // mongoose.connect("mongodb://localhost/votingapp");
+    // var conn = mongoose.connection;
+
+    // var ObjectID = require('mongodb').ObjectID;
+    var poll = {
+        name: req.body.pollname,
+        questions:[],
+        userid:req.body.userid,
+        isActive:true
+    };
+
+    Poll.create(poll).then((poll)=>{
+        return res.json(poll);
+    })
+    // conn.collection('polls').save(poll, function(poll){
+    //     console.log(poll);
+    //     return res.json(poll);
+    // });
+});
+    
+router.post('/closePoll',(req, res, next) => {
+    // mongoose.connect("mongodb://localhost/votingapp");
+    // var conn = mongoose.connection;
+    var pollid = req.body.pollid;
+    // var ObjectID = require('mongodb').ObjectID;
+    Poll.findOne({pollid:pollid}, function(err, poll){
+        poll.isActive = false;
+        poll.save().then(poll => {
+            return res.status(200).json(poll);
+        });
+    });
 });
 
 router.post('/:pollId/:questionId/vote', (req, res, next) => {
